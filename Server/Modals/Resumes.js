@@ -7,6 +7,7 @@ desc:String,
 skills:[String],
 exp:String,
 edu:String,
+pdfContent:String
 
 
 },{ timestamps: true })

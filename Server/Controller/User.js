@@ -1,7 +1,7 @@
 
 const User = require('../Modals/UserSchema')
 const jwt = require('jsonwebtoken');
-const setAlert = require('../Modules/alert')
+
 
 
 const getAllUser = async (req, res) => {
@@ -14,12 +14,13 @@ const createUser = async (req, res) => {
     try {
         const response = await User_.save()
         const data = {
-            id: email
+            id: response._id
         }
         const authtoken = jwt.sign(data, process.env.JWT_SECRET);
         res.cookie('jwt', authtoken, { httpOnly: true, secure: false })//for production set to true
         res.cookie('auth', true)
-        res.status(201).json(setAlert(true, true, 'success', "user was Created successfully"));
+        res.cookie('user', response.email)
+        res.status(201).json({type:'success', message:"user was Created successfully"});
     }
     catch (e) {
         console.log("error \n", e)
@@ -37,11 +38,11 @@ const login = async (req, res) => {
         if (data.length == 1) {
             res.cookie('jwt', authtoken, { httpOnly: true, secure: false })
             res.cookie('auth', true)
-            res.json(alert(true, true, "success", "Loged in"))
+            res.status(201).json({type:'success', message:"user was Created successfully"});
         }
         else if (data.length == 0) {
 
-            res.json(alert(false, true, "error", "Invalid Credentials"))
+            res.status(201).json({type:'error', message:"user was not successfully"});
         }
     }
     catch (e) {

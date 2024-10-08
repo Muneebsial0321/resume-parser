@@ -16,8 +16,18 @@ const Auth = () => {
             }
         })
     }
-    const _onSubmit_=()=>{
+    const _onSubmit_=async()=>{
         console.log({state})
+        const req = await fetch(`http://localhost:5000/user/${auth}`,{
+          method:'POST',
+          credentials:"include",
+          headers:{
+            "Content-type":"application/json"
+          },
+          body:JSON.stringify(state)
+        })
+        const data = await req.json()
+        console.log({data})
     }
     const _passToggle_=()=>{
         console.log({passState})

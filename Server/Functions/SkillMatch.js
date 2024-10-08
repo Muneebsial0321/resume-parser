@@ -26,13 +26,19 @@ const skillMatch = (eskills,rskills) => {
 };
 
 
-// skillMatch(extracted_skills,required_skills)
-//     .then((jsonData) => {
-//         console.log('Received JSON data:', jsonData);
+// const   = ['python', 'machine learning', 'nlp', 'react', 'tensorflow','wordpress','exel', 'machine learning', 'nlp', 'react', 'tensorflow','html']
+const  required_skills = ['python', 'machine learning', 'nlp', 'react', 'tensorflow','wordpress','exel', 'machine learning', 'nlp', 'react', 'tensorflow','html']
+// const  = ['python',]
+const extracted_skills = ['q']
+
+
+skillMatch(extracted_skills,required_skills)
+    .then((jsonData) => {
+        console.log('Received JSON data:', jsonData);
         
-//     })
-//     .catch((error) => {
-//         console.error('Error:', error);
-//     });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 
 module.exports = skillMatch

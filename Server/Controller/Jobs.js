@@ -1,8 +1,12 @@
 // controllers/JobController.js
+const AppliedJob = require('../Modals/AppliedJobs');
 const Job = require('../Modals/Jobs');
+const Resumes = require('../Modals/Resumes');
+
 
 const createJob = async (req, res) => {
   try {
+ 
     const job = new Job(req.body);
     const savedJob = await job.save();
     res.json({msg:"success",data:savedJob});
@@ -23,10 +27,15 @@ const getAllJobs = async (req, res) => {
 const getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
+    const appliedJobs = await AppliedJob.find({jobId:job._id})
+    const resumes = Promise.all(appliedJobs.map(async(e)=>{
+      const resume = await Resumes.findById(e.resumeId)
+      return resume
+    }))
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
-    res.status(200).json(job);
+    res.status(200).json({job,resumes});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

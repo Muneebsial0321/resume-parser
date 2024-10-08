@@ -2,7 +2,7 @@ import { Send } from '@mui/icons-material'
 import { Button, Chip } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { API } from '../../enviroment'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 
 const ViewJob = () => {
@@ -11,9 +11,44 @@ const ViewJob = () => {
     const [state, setstate] = useState([])
 
     useEffect(() => {
-        console.log({d})
+        // console.log({d})
         setstate(d)
     }, [loc.state.data])
+
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (event) => {
+      setFile(event.target.files[0]);
+    };
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+  
+      if (!file) {
+        alert('Please select a file!');
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      try {
+        // Send the file to the backend (Node.js server)
+        const req = await fetch(`http://localhost:5000/resumes/${state._id}`,{
+          method:'POST',
+          credentials:"include",
+          body:formData
+        })
+        const data = await req.json()
+        console.log({data})
+        console.log({cookies:document.cookie})
+        alert('File uploaded successfully!');
+      } catch (error) {
+        console.log(error)
+        console.error('Error uploading file:', error);
+        alert('Failed to upload file.');
+      }
+    };
     return (
         <>
 
@@ -47,7 +82,17 @@ const ViewJob = () => {
        
             </div>
         </div>
-            <center><Button className='mb-10'>Apply now</Button></center>
+        <div className="upload CV flex justify-center items-center flex-col gap-6">
+        <div>
+      <h2>Upload CV</h2>
+      <form >
+        <input type="file" accept=".pdf" onChange={handleFileChange} />
+        <Button onClick={handleSubmit} >Upload</Button>
+        
+      </form>
+    </div>
+        </div>
+            {/* <center><Link state={{id:state}} to='/apply'><Button className='mb-10'>Apply now</Button></Link></center> */}
         </>
     )
 }

@@ -1,11 +1,24 @@
 // controllers/resumeController.js
 const Resume = require('../Modals/Resumes');
+const pdfParse = require('pdf-parse');
+const fs = require('fs');
+const path = require('path');
+const AppliedJob = require('../Modals/AppliedJobs');
 
 const createResume = async (req, res) => {
   try {
-    const resume = new Resume(req.body);
+    const filePath = path.join(req.file.path);
+    const userId =req.cookies.user
+    const dataBuffer = fs.readFileSync(filePath);
+    const data = await pdfParse(dataBuffer);
+
+    // Send the extracted text back to the client
+    const pdfContent = data.text 
+    const resume = new Resume({...req.body,pdfContent,userId});
     const savedResume = await resume.save();
-    res.json(savedResume);
+
+    const appliedJob = new AppliedJob({jobId:req.params.jobId,resumeId:resume._id})
+    res.json({savedResume,appliedJob});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

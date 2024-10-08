@@ -11,7 +11,7 @@ Stack projects, demonstrating not only my technical abilities and creative probl
 also my adaptability and capacity for rapid learning. In this era of AI, I am always eager for 
 learning and improvement,with over 10 years plus experience consistently seeking new challenges to further develop my skill set. 
 Education : 
-degree of Computer Science
+degree of BsCS
 Bachelor of Computer Science, Islamia University of Bahawalpur  (Expected June  2026) 
 Skills : 
  JavaScript 
@@ -81,12 +81,12 @@ const resumeParse = (text) => {
 
 
 // Using the resumeParse function
-resumeParse(resume)
-    .then((jsonData) => {
-        console.log('Received JSON data:', jsonData);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+// resumeParse(resume)
+//     .then((jsonData) => {
+//         console.log('Received JSON data:', jsonData);
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//     });
 
 module.exports = resumeParse
