@@ -62,5 +62,6 @@ The backend executes Python scripts as child processes to interact with Spacy an
 
 1. Install dependencies:
    ```bash
-   yarn 
+   npm i
+   
    
